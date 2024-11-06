@@ -1,5 +1,5 @@
 CC=gcc
-OPT=-Wall -Wextra -Werror -pedantic
+OPT=-Wall -Wextra -pedantic $(shell pkg-config --cflags --libs glib-2.0)
 
 sources := $(wildcard src/*.c)
 

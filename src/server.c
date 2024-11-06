@@ -1,4 +1,5 @@
 #include "server.h"
+#include "command_parser.h"
 
 #include <arpa/inet.h>
 #include <asm-generic/socket.h>
@@ -54,6 +55,12 @@ int initialize_server(int port) {
     ssize_t bytes_read;
     while ((bytes_read = read(new_socket, buffer, BUFFER_SIZE)) > 0) {
         printf("Client sent: %s\n", buffer);
+        char *response = parse_command(buffer);
+
+        if (response) {
+            write(new_socket, response, strlen(response));
+            free(response);
+        }
         memset(buffer, 0, BUFFER_SIZE);
     }
 
